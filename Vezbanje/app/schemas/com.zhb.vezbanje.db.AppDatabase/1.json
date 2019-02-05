@@ -1,0 +1,63 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "aa7e38956e5ae321c2dbd0199d9a3028",
+    "entities": [
+      {
+        "tableName": "VezbeModel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nazivVezbe` TEXT, `brojSerija` TEXT, `brojPonavljanja` TEXT, `brojKilograma` TEXT, `datumVezbe` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nazivVezbe",
+            "columnName": "nazivVezbe",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "brojSerija",
+            "columnName": "brojSerija",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "brojPonavljanja",
+            "columnName": "brojPonavljanja",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "brojKilograma",
+            "columnName": "brojKilograma",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "datumVezbe",
+            "columnName": "datumVezbe",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"aa7e38956e5ae321c2dbd0199d9a3028\")"
+    ]
+  }
+}

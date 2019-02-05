@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Vezbanje</string>
+
+    <string name="nav_open_drawer">nav_open_drawer</string>
+    <string name="nav_close_drawer">nav_close_drawer</string>
+
+</resources>

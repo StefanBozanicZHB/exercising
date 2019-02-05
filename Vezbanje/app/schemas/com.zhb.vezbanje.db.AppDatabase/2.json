@@ -1,0 +1,89 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "443fcd828caf5e18dd8779ffb22b9549",
+    "entities": [
+      {
+        "tableName": "VezbeModel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nazivVezbe` TEXT, `brojSerija` TEXT, `brojPonavljanja` TEXT, `brojKilograma` TEXT, `datumVezbe` INTEGER)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nazivVezbe",
+            "columnName": "nazivVezbe",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "brojSerija",
+            "columnName": "brojSerija",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "brojPonavljanja",
+            "columnName": "brojPonavljanja",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "brojKilograma",
+            "columnName": "brojKilograma",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "datumVezbe",
+            "columnName": "datumVezbe",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "ExercisesModel",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `exercisesName` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "exercisesName",
+            "columnName": "exercisesName",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"443fcd828caf5e18dd8779ffb22b9549\")"
+    ]
+  }
+}
