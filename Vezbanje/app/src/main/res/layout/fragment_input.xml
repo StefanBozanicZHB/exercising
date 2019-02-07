@@ -15,19 +15,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="20dp"
->
+            android:padding="20dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:gravity="center"
-                android:text="CREATE RECORD"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                />
+                android:gravity="center"
+                android:text="CREATE A RECORD"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -50,39 +48,113 @@
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/edtPonavaljnje"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:hint="number of reps"
-                android:inputType="number" />
+            <LinearLayout
+                android:id="@+id/lnlExercises"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edtSerije"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:hint="number of series"
-                android:inputType="number" />
+                <EditText
+                    android:id="@+id/edtPonavaljnje"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="number of reps"
+                    android:inputType="number" />
 
-            <EditText
-                android:id="@+id/edtKilaza"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                <EditText
+                    android:id="@+id/edtSerije"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="number of series"
+                    android:inputType="number" />
+
+                <EditText
+                    android:id="@+id/edtKilaza"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="weight [kg]"
+                    android:inputType="number" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lnlRunning"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/edtDistance"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="distance [m]"
+                    android:inputType="number" />
+
+                <EditText
+                    android:id="@+id/edtDuration"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:hint="duration [s]"
+                    android:inputType="number" />
+
+                <CheckBox
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:button="@null"
+                    android:id="@+id/chbWeight"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="weight"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:hint="weight [kg]"
-                android:inputType="number" />
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Date:" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:id="@+id/txtDate"
+                    android:text="12.01.2019." />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:id="@+id/txtDifferentDate"
+                    android:textColor="@color/colorPrimary"
+                    android:text="(danasnji)" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/dateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="set date" />
+                android:layout_marginTop="5dp"
+                android:text="change date" />
 
         </LinearLayout>
     </ScrollView>
