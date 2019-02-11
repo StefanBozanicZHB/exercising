@@ -13,7 +13,10 @@
             android:id="@+id/nav_records"
             android:icon="@android:drawable/ic_menu_edit"
             android:title="RECORDS"/>
-
+        <item
+            android:id="@+id/nav_running"
+            android:icon="@android:drawable/ic_dialog_info"
+            android:title="RUNNING"/>
         <item
             android:id="@+id/nav_analysis"
             android:icon="@android:drawable/ic_menu_delete"

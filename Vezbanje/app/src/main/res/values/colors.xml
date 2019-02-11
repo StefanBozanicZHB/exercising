@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="dateBefore">#CE7801</color>
+    <color name="dateCurrent">#318800</color>
+    <color name="dateFuture">#D30000</color>
+
 </resources>

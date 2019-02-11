@@ -1,5 +1,6 @@
 package com.zhb.vezbanje.fragments;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -10,6 +11,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -30,6 +32,8 @@ import com.zhb.vezbanje.R;
 import com.zhb.vezbanje.adapter.RecyclerViewAdapterExercises;
 import com.zhb.vezbanje.db.Exercises.ExercisesModel;
 import com.zhb.vezbanje.db.Exercises.ExercisesViewModel;
+import com.zhb.vezbanje.db.Running.RunningModel;
+import com.zhb.vezbanje.db.Running.RunningViewModel;
 import com.zhb.vezbanje.db.Vezbe.VezbeModel;
 import com.zhb.vezbanje.db.Vezbe.VezbeViewModel;
 
@@ -60,6 +64,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
 
     private VezbeViewModel borrowedListViewModel;
     private ExercisesViewModel exercisesViewModel;
+    private RunningViewModel runningViewModel;
 
     private FloatingActionButton fab;
 
@@ -68,6 +73,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
     private int currentDay;
 
     private static VezbeModel lastVezbeModel;
+    private static RunningModel lastRunningModel;
 
     List<String> spinnerArray;
 
@@ -83,6 +89,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
         initialisationComponents();
 
         borrowedListViewModel = ViewModelProviders.of(this).get(VezbeViewModel.class);
+        runningViewModel = ViewModelProviders.of(this).get(RunningViewModel.class);
 
         fabSetOnClickListener();
 
@@ -115,34 +122,41 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
 
     private void setTextDate(int dayOfMonth, int month, int year) {
         String dateDifferentText = "(today)";
-        int color = Color.GREEN;
+        int color = ContextCompat.getColor(getContext(), R.color.dateCurrent);
         txtDate.setText(dayOfMonth + "." + (++month) + "." + year + ".");
 
         long numberOfDays = getUnitBetweenDates(currentDate, date, TimeUnit.DAYS);
 
         if (numberOfDays == 0) {
-            if (currentDay != dayOfMonth) {
+            if (currentDay < dayOfMonth) {
                 numberOfDays = 1;
+            } else if (currentDay > dayOfMonth) {
+                numberOfDays = -1;
             }
         }
 
         if (numberOfDays > 0) {
             dateDifferentText = "(future!)";
-            color = Color.RED;
+            color = ContextCompat.getColor(getContext(), R.color.dateFuture);
         } else if (numberOfDays == -1) {
             dateDifferentText = "(yesterday)";
-            color = Color.YELLOW;
+            color = ContextCompat.getColor(getContext(), R.color.dateBefore);
         } else if (numberOfDays == -2) {
             dateDifferentText = "(day before yesterday)";
-            color = Color.YELLOW;
+            color = ContextCompat.getColor(getContext(), R.color.dateBefore);
         } else if (numberOfDays < -2) {
             dateDifferentText = "(few days ago)";
-            color = Color.YELLOW;
+            color = ContextCompat.getColor(getContext(), R.color.dateBefore);
         }
 
         txtDifferentDate.setTextColor(color);
         txtDifferentDate.setText(dateDifferentText);
 
+    }
+
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private static long getUnitBetweenDates(Date startDate, Date endDate, TimeUnit unit) {
@@ -184,6 +198,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboardFrom(getContext(), getView());
                 if (lnlExercises.getVisibility() == View.VISIBLE) {
                     if (spnExerciseName.getSelectedItem().toString().equals(null)
                             || edtSerije.getText().toString().matches("")
@@ -200,13 +215,26 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
                                 date
                         ));
                         lastIdVezbe();
-                        setSnackBar();  //here "layout" is your parentView in a layout
+                        setSnackBar(false);  //here "layout" is your parentView in a layout
                         clearEditTexts();
                     }
-                }
-                else{
-                    if(edtDistance.getText().toString().matches("") || edtDuration.getText().toString().matches("") ){
+                } else {
+                    if (edtDistance.getText().toString().matches("") || edtDuration.getText().toString().matches("")) {
                         Toast.makeText(getContext(), "Missing fields", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // ovo mora da se promeni
+                        runningViewModel.addBorrow(new RunningModel(
+                                spnExerciseName.getSelectedItem().toString(),
+                                edtDistance.getText().toString(),
+                                edtDuration.getText().toString(),
+                                "333",
+                                "92",
+                                chbWeight.isChecked(),
+                                date
+                        ));
+                        lastIdVezbeRunning();
+                        setSnackBar(true);  //here "layout" is your parentView in a layout
+                        clearEditTexts();
                     }
                 }
             }
@@ -275,18 +303,27 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
     }
 
     private void clearEditTexts() {
+
         edtSerije.getText().clear();
         edtPonavaljnje.getText().clear();
         edtKilaza.getText().clear();
+        edtDuration.getText().clear();
+        edtDistance.getText().clear();
+
     }
 
-    private void setSnackBar() {
+    private void setSnackBar(final boolean isRunning) {
         Snackbar snackbar = Snackbar
                 .make(rootView.findViewById(R.id.coordinatorLayout), "Success insert record!", Snackbar.LENGTH_LONG)
                 .setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        deleteItemVezba();
+                        if (!isRunning) {
+                            deleteLastItemExercise();
+                        } else {
+                            deleteLastItemRunning();
+                        }
+
                         Toast.makeText(getContext(), "Success delete last record", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -308,7 +345,21 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
         });
     }
 
-    private void deleteItemVezba() {
+    private void lastIdVezbeRunning() {
+        runningViewModel.getLastModel().observe(this, new Observer<RunningModel>() {
+            @Override
+            public void onChanged(@Nullable RunningModel lastVezba) {
+                lastRunningModel = lastVezba;
+            }
+        });
+    }
+
+    private void deleteLastItemExercise() {
         borrowedListViewModel.deleteItem(lastVezbeModel);
     }
+
+    private void deleteLastItemRunning() {
+        runningViewModel.deleteItem(lastRunningModel);
+    }
+
 }

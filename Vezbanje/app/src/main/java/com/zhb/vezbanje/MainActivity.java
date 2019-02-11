@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import com.zhb.vezbanje.fragments.AnalysisFragment;
 import com.zhb.vezbanje.fragments.InputFragment;
 import com.zhb.vezbanje.fragments.RecordsFragment;
+import com.zhb.vezbanje.fragments.RunningFragment;
 import com.zhb.vezbanje.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -70,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_analysis:
                 fragment = new AnalysisFragment();
+                break;
+            case R.id.nav_running:
+                fragment = new RunningFragment();
                 break;
             default:
                 fragment = new InputFragment();
