@@ -20,7 +20,7 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface RunningModelDao {
 
     // kada se vracaju vise odgovora treba obgriliti sa LiveData
-    @Query("select * from RunningModel")
+    @Query("select * from RunningModel ORDER BY datumVezbe DESC")
     LiveData<List<RunningModel>> getAllVezbeItems();
 
     @Query("select * from RunningModel where id = :id")

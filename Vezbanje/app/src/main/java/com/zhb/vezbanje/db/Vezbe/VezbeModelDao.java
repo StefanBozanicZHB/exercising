@@ -20,7 +20,7 @@ import static android.arch.persistence.room.OnConflictStrategy.REPLACE;
 public interface VezbeModelDao {
 
     // kada se vracaju vise odgovora treba obgriliti sa LiveData
-    @Query("select * from VezbeModel")
+    @Query("select * from VezbeModel ORDER BY datumVezbe DESC")
     LiveData<List<VezbeModel>> getAllVezbeItems();
 
     @Query("select * from VezbeModel where id = :id")

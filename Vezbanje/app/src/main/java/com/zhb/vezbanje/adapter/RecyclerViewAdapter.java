@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
@@ -25,10 +26,14 @@ import java.util.List;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.RecyclerViewHolder> {
 
     int row_index;
+
     private List<VezbeModel> vezbeModelList;
 
     ActionMode mActionMode;
     Context ctx;
+
+    VezbeModel vezbeModelForDelete;
+    VezbeViewModel viewModel;
 
     public RecyclerViewAdapter(List<VezbeModel> borrowModelList) {
         this.vezbeModelList = borrowModelList;
@@ -39,27 +44,33 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         this.ctx = parent.getContext();
 
+        viewModel = ViewModelProviders.of((FragmentActivity) parent.getContext()).get(VezbeViewModel.class);
+
         return new RecyclerViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycler_item, parent, false));
     }
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
-
         final VezbeModel vezbeModel = vezbeModelList.get(position);
-        holder.txtName.setText(vezbeModel.getNazivVezbe());
-        holder.txtDetails.setText(
-                vezbeModel.getBrojSerija() +
-                        "x" +
-                        vezbeModel.getBrojPonavljanja() + " " +
-                        vezbeModel.getBrojKilograma() + "kg"
-        );
-        holder.txtDate.setText(vezbeModel.getDatumVezbe().toLocaleString().substring(0, 11));
 
+        holder.txtName.setText(vezbeModel.getNazivVezbe());
+        holder.txtDetails.setText(vezbeModel.getBrojSerija() + "x" + vezbeModel.getBrojPonavljanja() + " " + vezbeModel.getBrojKilograma() + "kg");
+        holder.txtDate.setText(vezbeModel.getDatumVezbe().toLocaleString().substring(0, 11));
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // menja se sadrzaj padajuceg menija kada se klikne
+                if (mActionMode != null) {
+                    mActionMode = ((Activity) view.getContext()).startActionMode(mActionModeCallback); // za fragmente ((Activity)getContext()). ...
+                    mActionMode.setTitle(vezbeModel.getNazivVezbe() + " " + vezbeModel.getDatumVezbe().toLocaleString().substring(0, 6));
+
+                }
+
+                vezbeModelForDelete = vezbeModel;
+
                 row_index = position;
                 notifyDataSetChanged();
 
@@ -68,27 +79,35 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                if (mActionMode != null) return false;
-                mActionMode = ((Activity) v.getContext()).startActionMode(mActionModeCallback); // za fragmente ((Activity)getContext()). ...
-                mActionMode.setTitle("New Title");
+            public boolean onLongClick(View view) {
 
-//                VezbeViewModel viewModel;
-//                viewModel = ViewModelProviders.of((FragmentActivity) v.getContext()).get(VezbeViewModel.class);
-//
-//                Toast.makeText(v.getContext(), "dugi", Toast.LENGTH_SHORT).show();
-//                viewModel.deleteItem(vezbeModel);
+                row_index = position;
+                notifyDataSetChanged();
+
+                mActionMode = ((Activity) view.getContext()).startActionMode(mActionModeCallback); // za fragmente ((Activity)getContext()). ...
+                mActionMode.setTitle(vezbeModel.getNazivVezbe() + "");
+
+                vezbeModelForDelete = vezbeModel;
+
                 return false;
             }
         });
 
 
         if (row_index == position) {
-            holder.linearLayout.setBackgroundColor(Color.parseColor("#567845"));
-            holder.txtName.setTextColor(Color.parseColor("#ffffff"));
+            holder.txtName.setTextColor(Color.parseColor("#c4038d"));
+            holder.txtName.setTextSize(22);
+            holder.txtName.setTypeface(null, Typeface.BOLD);
+            holder.txtDate.setTypeface(null, Typeface.BOLD);
+            holder.txtDetails.setTypeface(null, Typeface.BOLD);
+
         } else {
-            holder.linearLayout.setBackgroundColor(Color.parseColor("#ffffff"));
             holder.txtName.setTextColor(Color.parseColor("#000000"));
+            holder.txtName.setTextSize(18);
+            holder.txtName.setTypeface(null, Typeface.NORMAL);
+            holder.txtDate.setTypeface(null, Typeface.NORMAL);
+            holder.txtDetails.setTypeface(null, Typeface.NORMAL);
+
         }
 
         holder.itemView.setTag(vezbeModel);
@@ -135,11 +154,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.menu_delete:
-                    Toast.makeText(ctx, "Cast", Toast.LENGTH_SHORT).show();
+                    viewModel.deleteItem(vezbeModelForDelete);
+                    Toast.makeText(ctx, "Deleting: " + vezbeModelForDelete.getNazivVezbe() + " " + vezbeModelForDelete.getDatumVezbe() + "x" + vezbeModelForDelete.getBrojPonavljanja(), Toast.LENGTH_SHORT).show();
                     mode.finish();
                     return true;
                 case R.id.menu_edit:
-                    Toast.makeText(ctx, "Print", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ctx, "Edi", Toast.LENGTH_SHORT).show();
                     mode.finish();
                     return true;
                 default:

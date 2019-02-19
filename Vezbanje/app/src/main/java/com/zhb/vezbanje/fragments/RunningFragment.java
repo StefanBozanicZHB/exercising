@@ -22,10 +22,7 @@ import com.zhb.vezbanje.db.Vezbe.VezbeViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class RunningFragment extends Fragment implements View.OnLongClickListener {
+public class RunningFragment extends Fragment {
 
     private RunningViewModel viewModel;
     private RecyclerViewAdapterRunning recyclerViewAdapterRunning;
@@ -40,19 +37,12 @@ public class RunningFragment extends Fragment implements View.OnLongClickListene
 
         recyclerView = rootView.findViewById(R.id.recyclerView);
 
-        // u kontruktor se prenosi lista, i longClick event sa ovog contexta
-        recyclerViewAdapterRunning = new RecyclerViewAdapterRunning(new ArrayList<RunningModel>(), this);
+        recyclerViewAdapterRunning = new RecyclerViewAdapterRunning(new ArrayList<RunningModel>());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         recyclerView.setAdapter(recyclerViewAdapterRunning);
 
-        // ovo je sablon kako se poziva instanca ViewModela
-        // samo se menja get argument gde se prosledjuje klasa gde se nalazu metoda koja se kasnije poziva (delete, add ili updata...)
         viewModel = ViewModelProviders.of(this).get(RunningViewModel.class);
-
-
-
-        // svaka promena modela da utice na adapter
         viewModel.getItemAndPersonList().observe(this, new Observer<List<RunningModel>>() {
             @Override
             public void onChanged(@Nullable List<RunningModel> itemAndPeople) {
@@ -63,11 +53,4 @@ public class RunningFragment extends Fragment implements View.OnLongClickListene
         return rootView;
     }
 
-    @Override
-    public boolean onLongClick(View v) {
-        RunningModel borrowModel = (RunningModel) v.getTag();
-        // ako se prosledjuje parametar
-        viewModel.deleteItem(borrowModel);
-        return true;
-    }
 }

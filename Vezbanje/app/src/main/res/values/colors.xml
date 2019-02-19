@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#072C99</color>
+    <color name="colorPrimaryDark">#001657</color>
+    <color name="colorAccent">#DB00C3</color>
     <color name="dateBefore">#CE7801</color>
     <color name="dateCurrent">#318800</color>
     <color name="dateFuture">#D30000</color>
-
+    <color name="background">#0934B4</color>
+    <color name="components">#DB00C3</color>
+    <color name="white">#FFF</color>
+    <color name="background_dark">#0B36B8</color>
+    <color name="background_light">#9422F7</color>
+    <color name="transparent">#000B36B8</color>
 </resources>
