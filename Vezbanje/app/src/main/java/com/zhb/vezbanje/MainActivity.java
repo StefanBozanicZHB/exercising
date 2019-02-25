@@ -23,6 +23,11 @@ import com.zhb.vezbanje.fragments.RecordsFragment;
 import com.zhb.vezbanje.fragments.RunningFragment;
 import com.zhb.vezbanje.fragments.SettingsFragment;
 
+import java.io.BufferedReader;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -97,4 +102,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) drawer.closeDrawer(GravityCompat.START);
         else super.onBackPressed();
     }
+
 }

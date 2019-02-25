@@ -1,6 +1,5 @@
 package com.zhb.vezbanje.fragments;
 
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -8,18 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.zhb.vezbanje.R;
+import com.zhb.vezbanje.adapter.RecyclerViewAdapter;
 import com.zhb.vezbanje.db.Vezbe.VezbeModel;
 import com.zhb.vezbanje.db.Vezbe.VezbeViewModel;
-import com.zhb.vezbanje.adapter.RecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +27,7 @@ public class RecordsFragment extends Fragment  {
     private RecyclerView recyclerView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_records, container, false);
 
@@ -55,6 +49,4 @@ public class RecordsFragment extends Fragment  {
 
         return rootView;
     }
-
-
 }

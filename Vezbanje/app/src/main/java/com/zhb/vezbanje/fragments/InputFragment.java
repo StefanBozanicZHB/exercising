@@ -103,6 +103,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
     }
 
     private void setCurrentDate() {
+
         Calendar c = Calendar.getInstance();
         currentDate = new Date();
         c.setTime(currentDate);
@@ -121,6 +122,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
     }
 
     private void setTextDate(int dayOfMonth, int month, int year) {
+
         String dateDifferentText = "(today)";
         int color = ContextCompat.getColor(getContext(), R.color.dateCurrent);
         txtDate.setText(dayOfMonth + "." + (++month) + "." + year + ".");
@@ -155,16 +157,21 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
     }
 
     public static void hideKeyboardFrom(Context context, View view) {
+
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 
     private static long getUnitBetweenDates(Date startDate, Date endDate, TimeUnit unit) {
+
         long timeDiff = endDate.getTime() - startDate.getTime();
         return unit.convert(timeDiff, TimeUnit.MILLISECONDS);
+
     }
 
     private void setComboBoxListener() {
+
         spnExerciseName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
@@ -270,13 +277,14 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
             }
         });
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                getContext(), android.R.layout.simple_spinner_item, spinnerArray);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnExerciseName = rootView.findViewById(R.id.spnExerciseName);
 
-        spnExerciseName.setAdapter(adapter);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                getContext(),R.layout.spinner_item,spinnerArray
+        );
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        spnExerciseName.setAdapter(spinnerArrayAdapter);
+
     }
 
     private void initialisationComponents() {

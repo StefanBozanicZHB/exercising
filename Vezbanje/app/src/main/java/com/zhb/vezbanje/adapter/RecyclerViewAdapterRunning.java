@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +54,7 @@ public class RecyclerViewAdapterRunning extends RecyclerView.Adapter<RecyclerVie
 
         runningViewModel = ViewModelProviders.of((FragmentActivity) parent.getContext()).get(RunningViewModel.class);
 
-        return new RecyclerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false));
+        return new RecyclerViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item_running, parent, false));
     }
 
     @Override
@@ -59,11 +62,22 @@ public class RecyclerViewAdapterRunning extends RecyclerView.Adapter<RecyclerVie
         final RunningModel runningModel = vezbeModelList.get(position);
 
         holder.txtName.setText(runningModel.getNazivVezbe());
-        holder.txtDetails.setText(runningModel.getDistanca() + "m, " + runningModel.getTrajanje() + "s, " + runningModel.getKalorije() + "cal, " + runningModel.getProsekNa400() + " na 400m, teg - " + runningModel.isTeg());
+        holder.txtDistance.setText(runningModel.getDistanca() + "m");
+        holder.txtTime.setText(runningModel.getTrajanje());
+        holder.txtCal.setText(runningModel.getKalorije() + "cal");
+        holder.txtAvrage.setText(runningModel.getProsekNa400() + "s");
+
+        int viewImage = View.GONE;
+        if (runningModel.isTeg()) {
+            viewImage = View.VISIBLE;
+        }
+
+        holder.imageView.setVisibility(viewImage);
+
         holder.txtDate.setText(runningModel.getDatumVezbe().toLocaleString().substring(0, 11));
 
         // klik na linearLayout
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -81,7 +95,7 @@ public class RecyclerViewAdapterRunning extends RecyclerView.Adapter<RecyclerVie
             }
         });
 
-        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
 
@@ -98,13 +112,30 @@ public class RecyclerViewAdapterRunning extends RecyclerView.Adapter<RecyclerVie
         });
 
 
-        // sta da se menja of grafike kadase nesto selektuje
         if (rowIndex == position) {
-            holder.txtName.setTextColor(Color.parseColor("#c4038d"));
-        } else {
-            holder.txtName.setTextColor(Color.parseColor("#000000"));
-        }
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#80db00c2"));
 
+            holder.txtName.setTextSize(22);
+            holder.txtName.setTypeface(null, Typeface.BOLD);
+            holder.txtDate.setTypeface(null, Typeface.BOLD);
+            holder.txtDistance.setTypeface(null, Typeface.BOLD);
+            holder.txtTime.setTypeface(null, Typeface.BOLD);
+            holder.txtAvrage.setTypeface(null, Typeface.BOLD);
+            holder.txtCal.setTypeface(null, Typeface.BOLD);
+
+        } else {
+
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#0Ddb00c2"));
+
+            holder.txtName.setTextSize(18);
+            holder.txtName.setTypeface(null, Typeface.NORMAL);
+            holder.txtDate.setTypeface(null, Typeface.NORMAL);
+            holder.txtDistance.setTypeface(null, Typeface.NORMAL);
+            holder.txtTime.setTypeface(null, Typeface.NORMAL);
+            holder.txtAvrage.setTypeface(null, Typeface.NORMAL);
+            holder.txtCal.setTypeface(null, Typeface.NORMAL);
+
+        }
         holder.itemView.setTag(runningModel);
     }
 
@@ -119,17 +150,31 @@ public class RecyclerViewAdapterRunning extends RecyclerView.Adapter<RecyclerVie
     }
 
     static class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
         private TextView txtName;
-        private TextView txtDetails;
+        private TextView txtDistance;
+        private TextView txtTime;
+        private TextView txtCal;
+        private TextView txtAvrage;
         private TextView txtDate;
-        private LinearLayout linearLayout;
+
+        private ImageView imageView;
+
+        private CardView cardView;
 
         RecyclerViewHolder(View view) {
             super(view);
+
             txtName = view.findViewById(R.id.txtName);
-            txtDetails = view.findViewById(R.id.txtDetails);
+            txtDistance = view.findViewById(R.id.txtDistance);
+            txtTime = view.findViewById(R.id.txtTime);
+            txtCal = view.findViewById(R.id.txtCal);
+            txtAvrage = view.findViewById(R.id.txtAvrage);
             txtDate = view.findViewById(R.id.txtDate);
-            linearLayout = view.findViewById(R.id.linearLayout);
+
+            imageView = view.findViewById(R.id.imageView);
+
+            cardView = view.findViewById(R.id.cardView);
         }
     }
 

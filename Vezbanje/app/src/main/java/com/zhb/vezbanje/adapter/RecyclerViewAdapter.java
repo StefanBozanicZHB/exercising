@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -58,7 +59,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.txtDetails.setText(vezbeModel.getBrojSerija() + "x" + vezbeModel.getBrojPonavljanja() + " " + vezbeModel.getBrojKilograma() + "kg");
         holder.txtDate.setText(vezbeModel.getDatumVezbe().toLocaleString().substring(0, 11));
 
-        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -77,7 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         });
 
-        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
 
@@ -95,14 +96,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         if (row_index == position) {
-            holder.txtName.setTextColor(Color.parseColor("#c4038d"));
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#80db00c2"));
+//            holder.txtName.setTextColor(Color.parseColor("#c4038d"));
+//            holder.txtDate.setTextColor(Color.parseColor("#c4038d"));
+//            holder.txtDetails.setTextColor(Color.parseColor("#c4038d"));
+
             holder.txtName.setTextSize(22);
             holder.txtName.setTypeface(null, Typeface.BOLD);
             holder.txtDate.setTypeface(null, Typeface.BOLD);
             holder.txtDetails.setTypeface(null, Typeface.BOLD);
 
         } else {
-            holder.txtName.setTextColor(Color.parseColor("#000000"));
+
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#0Ddb00c2"));
+//            holder.txtName.setTextColor(Color.parseColor("#FFFFFF"));
+//            holder.txtDetails.setTextColor(Color.parseColor("#FFFFFF"));
+//            holder.txtDate.setTextColor(Color.parseColor("#FFFFFF"));
+
             holder.txtName.setTextSize(18);
             holder.txtName.setTypeface(null, Typeface.NORMAL);
             holder.txtDate.setTypeface(null, Typeface.NORMAL);
@@ -127,14 +137,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView txtName;
         private TextView txtDetails;
         private TextView txtDate;
-        private LinearLayout linearLayout;
+        private CardView cardView;
 
         RecyclerViewHolder(View view) {
             super(view);
             txtName = view.findViewById(R.id.txtName);
             txtDetails = view.findViewById(R.id.txtDetails);
             txtDate = view.findViewById(R.id.txtDate);
-            linearLayout = view.findViewById(R.id.linearLayout);
+            cardView = view.findViewById(R.id.cardView);
         }
     }
 
