@@ -10,10 +10,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -280,7 +284,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
         spnExerciseName = rootView.findViewById(R.id.spnExerciseName);
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                getContext(),R.layout.spinner_item,spinnerArray
+                getContext(), R.layout.spinner_item, spinnerArray
         );
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
         spnExerciseName.setAdapter(spinnerArrayAdapter);
@@ -308,6 +312,94 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
         datePickerDialog = new DatePickerDialog(getContext(), InputFragment.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         populateSpinner();
+
+//        edtDistance.setOnKeyListener(new View.OnKeyListener() {
+//            @Override
+//            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+//                Toast.makeText(getContext(), ""+edtDistance.getText().toString(), Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//        });
+
+        setupFloatingLabelError();
+    }
+
+
+    private void setupFloatingLabelError() {
+        final TextInputLayout floatingDisatnce = rootView.findViewById(R.id.tilDisatnce);
+        floatingDisatnce.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence text, int start, int count, int after) {
+
+                if (text.length() > 0 && text.length() <= 3) {
+
+                    floatingDisatnce.setError(edtDistance.getText().toString() + "m");
+
+                } else if (text.length() > 0) {
+
+                    int lenght = text.length();
+                    floatingDisatnce.setError(edtDistance.getText().toString().substring(0, lenght - 3) + "," + edtDistance.getText().toString().substring(lenght - 3, lenght) + "km");
+
+                } else {
+                    floatingDisatnce.setErrorEnabled(false);
+                }
+            }
+
+            // ...
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        final TextInputLayout floatingDuration = rootView.findViewById(R.id.tilDuration);
+        floatingDuration.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence text, int start, int count, int after) {
+
+                int duration = 0;
+                try {
+                    duration = Integer.parseInt(edtDuration.getText().toString());
+                } catch (Exception e)
+                {}
+
+                int minutes = duration / 60;
+                int secundes = duration % 60;
+
+                if (duration > 0) {
+                    if (minutes == 0) {
+
+                        floatingDuration.setError(secundes + "s");
+
+                    } else {
+                        floatingDuration.setError(minutes + ":" + secundes);
+
+                    }
+                }
+                else{
+                    floatingDuration.setErrorEnabled(false);
+                }
+            }
+
+            // ...
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void clearEditTexts() {

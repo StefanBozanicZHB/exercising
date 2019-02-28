@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.RecordsFragment"
     android:background="@drawable/background"
-    >
+    tools:context=".fragments.RecordsFragment">
 
 
     <ScrollView
@@ -20,34 +19,34 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/titleCreateRecord"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="30sp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:fontFamily="@font/brushcrazy"
                 android:gravity="center"
                 android:text="CREATE A RECORD"
-                android:fontFamily="@font/brushcrazy"
-                android:id="@+id/titleCreateRecord"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="@color/components"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                android:textSize="30sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:padding="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/white"
                     android:layout_marginRight="10dp"
                     android:text="Exercise:"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/white" />
 
                 <Spinner
                     android:id="@+id/spnExerciseName"
@@ -68,33 +67,33 @@
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:backgroundTint="@color/colorAccent"
-                    android:textColor="@color/colorAccent"
+                    android:gravity="center"
                     android:hint="number of reps"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textColor="@color/colorAccent" />
 
                 <EditText
                     android:id="@+id/edtSerije"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:gravity="center"
                     android:backgroundTint="@color/colorAccent"
+                    android:gravity="center"
                     android:hint="number of series"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textColor="@color/colorAccent" />
 
                 <EditText
                     android:id="@+id/edtKilaza"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:gravity="center"
                     android:backgroundTint="@color/colorAccent"
+                    android:gravity="center"
                     android:hint="weight [kg]"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:textColor="@color/colorAccent" />
             </LinearLayout>
 
             <LinearLayout
@@ -103,37 +102,63 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/edtDistance"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilDisatnce"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/colorAccent"
-                    android:gravity="center"
-                    android:backgroundTint="@color/colorAccent"
-                    android:hint="distance [m]"
-                    android:inputType="number" />
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
 
-                <EditText
-                    android:id="@+id/edtDuration"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
+                    <EditText
+                        android:id="@+id/edtDistance"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/colorAccent"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:hint="Distance"
+                        android:inputType="number"
+                        android:textColor="@color/colorAccent" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilDuration"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:backgroundTint="@color/colorAccent"
-                    android:textColor="@color/colorAccent"
-                    android:hint="duration [s]"
-                    android:inputType="number" />
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    >
+
+                    <EditText
+                        android:id="@+id/edtDuration"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:backgroundTint="@color/colorAccent"
+                        android:gravity="center"
+                        android:hint="Duration"
+                        android:inputType="number"
+                        android:textColor="@color/colorAccent"
+
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:ems="10"
+                        />
+                </android.support.design.widget.TextInputLayout>
 
                 <CheckBox
+                    android:id="@+id/chbWeight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/white"
                     android:button="@null"
-                    android:id="@+id/chbWeight"
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
                     android:text="weight"
+                    android:textColor="@color/white"
 
                     />
             </LinearLayout>
@@ -150,24 +175,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:textColor="@color/white"
-                    android:text="Date:" />
+                    android:text="Date:"
+                    android:textColor="@color/white" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:id="@+id/txtDate"
-                    android:textColor="@color/white"
-                    android:text="12.01.2019." />
-
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:text="12.01.2019."
+                    android:textColor="@color/white" />
+
+                <TextView
                     android:id="@+id/txtDifferentDate"
-                    android:textColor="@color/colorPrimary"
-                    android:text="(danasnji)" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="(danasnji)"
+                    android:textColor="@color/colorPrimary" />
             </LinearLayout>
 
             <Button
@@ -175,11 +200,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textColor="@color/white"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/round_button"
                 android:padding="15dp"
-                android:layout_marginTop="5dp"
-                android:text="change date" />
+                android:text="change date"
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </ScrollView>
