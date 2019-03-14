@@ -79,6 +79,8 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
     private static VezbeModel lastVezbeModel;
     private static RunningModel lastRunningModel;
 
+    double type = 3.5;
+
     List<String> spinnerArray;
 
     public InputFragment() {
@@ -182,6 +184,8 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
                 if (position == 0 || position == 1 || position == 2) {
                     lnlExercises.setVisibility(View.GONE);
                     lnlRunning.setVisibility(View.VISIBLE);
+                    if (position == 1) type = 7.0;
+                    if (position == 0) type = 3.5;
                 } else {
                     lnlExercises.setVisibility(View.VISIBLE);
                     lnlRunning.setVisibility(View.GONE);
@@ -218,6 +222,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
                             || date == null)
                         Toast.makeText(getContext(), "Missing fields", Toast.LENGTH_SHORT).show();
                     else {
+
                         borrowedListViewModel.addBorrow(new VezbeModel(
                                 spnExerciseName.getSelectedItem().toString(),
                                 edtSerije.getText().toString(),
@@ -233,13 +238,24 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
                     if (edtDistance.getText().toString().matches("") || edtDuration.getText().toString().matches("")) {
                         Toast.makeText(getContext(), "Missing fields", Toast.LENGTH_SHORT).show();
                     } else {
+
+                        double distance = Integer.parseInt(edtDistance.getText().toString());
+                        double duration = (double) Integer.parseInt(edtDuration.getText().toString()) / 60;
+
+                        double MET = (type + (distance / duration * 0.2)) / type;
+
+                        double calories = 80 * MET / 60 * duration;
+
+                        double avrage = duration / distance * 400 * 60;
+
+
                         // ovo mora da se promeni
                         runningViewModel.addBorrow(new RunningModel(
                                 spnExerciseName.getSelectedItem().toString(),
                                 edtDistance.getText().toString(),
                                 edtDuration.getText().toString(),
-                                "333",
-                                "92",
+                                "" + (int) calories,
+                                "" + (int) avrage,
                                 chbWeight.isChecked(),
                                 date
                         ));
@@ -367,8 +383,8 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
                 int duration = 0;
                 try {
                     duration = Integer.parseInt(edtDuration.getText().toString());
-                } catch (Exception e)
-                {}
+                } catch (Exception e) {
+                }
 
                 int minutes = duration / 60;
                 int secundes = duration % 60;
@@ -382,8 +398,7 @@ public class InputFragment extends Fragment implements DatePickerDialog.OnDateSe
                         floatingDuration.setError(minutes + ":" + secundes);
 
                     }
-                }
-                else{
+                } else {
                     floatingDuration.setErrorEnabled(false);
                 }
             }

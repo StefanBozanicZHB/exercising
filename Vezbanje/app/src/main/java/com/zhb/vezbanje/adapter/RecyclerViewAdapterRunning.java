@@ -59,11 +59,18 @@ public class RecyclerViewAdapterRunning extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
+
         final RunningModel runningModel = vezbeModelList.get(position);
+
+        int duration = Integer.parseInt(runningModel.getTrajanje());
+        int minutes = duration / 60;
+        int secundes = duration % 60;
+
+        String durationString = minutes + ":" + secundes;
 
         holder.txtName.setText(runningModel.getNazivVezbe());
         holder.txtDistance.setText(runningModel.getDistanca() + "m");
-        holder.txtTime.setText(runningModel.getTrajanje());
+        holder.txtTime.setText(durationString);
         holder.txtCal.setText(runningModel.getKalorije() + "cal");
         holder.txtAvrage.setText(runningModel.getProsekNa400() + "s");
 
